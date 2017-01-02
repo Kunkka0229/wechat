@@ -1,21 +1,26 @@
 // pages/movies/movies.js
 var app = getApp();
+var util = require('../../utils/utils.js');
 Page({
-  data:{},
+  data:{
+    inTheaters: {},
+    comingSoon: {},
+    top250: {}
+  },
   onLoad:function(options){
-    // 正在上映
+    // 正在上映    https://api.douban.com/v2/movie/in_theaters
     var inTheatersUrl = app.globalData.doubanBase + '/v2/movie/in_theaters?start=0&count=3';
     // 即将上映
     var comingSoonUrl = app.globalData.doubanBase + '/v2/movie/coming_soon?start=0&count=3';
     // top250
     var top250Url = app.globalData.doubanBase + '/v2/movie/top250?start=0&count=3';
 
-    this.getMovieListData(inTheatersUrl);
-    // this.getMovieListData(comingSoonUrl);
-    // this.getMovieListData(top250Url);
+    this.getMovieListData(inTheatersUrl, '正在热映', 'inTheaters');
+    this.getMovieListData(comingSoonUrl, '即将上映', 'comingSoon');
+    this.getMovieListData(top250Url, '豆瓣Top250', 'top250');
   },
   // 获取电影数据
-  getMovieListData(url) {
+  getMovieListData(url, categoryTitle, settedKey) {
     var self = this;
     // 发起请求
     wx.request({
@@ -26,7 +31,7 @@ Page({
         'Content-Type': 'json'
       }, 
       success: function(res){
-        self.processDoubanData(res.data);
+        self.processDoubanData(res.data, categoryTitle, settedKey);
       },
       fail: function() {
         // fail
@@ -35,10 +40,11 @@ Page({
     });
   },
   // 数据处理
-  processDoubanData(moviesDouban) {
+  processDoubanData(moviesDouban, categoryTitle, settedKey) {   
     var movies = [];
     moviesDouban.subjects.forEach((item) => {
       var temp = {
+        stars: util.convertToStarsArray(item.rating.stars),
         title: item.title,
         average: item.rating.average,
         coverageUrl: item.images.large,
@@ -47,8 +53,18 @@ Page({
       movies.push(temp);
     })
     // 添加数据
-    this.setData({
-      movies: movies
-    });
+    var readyData = {};
+    readyData[settedKey] = {
+      movies: movies,
+      categoryTitle: categoryTitle
+    };
+    this.setData(readyData);
+  },
+  // 点击跳转到更多
+  onMoreTap(event) {
+    let category = event.currentTarget.dataset.category;
+    wx.navigateTo({
+      url: 'more-movie/more-movie?category=' + category
+    })
   }
 })
