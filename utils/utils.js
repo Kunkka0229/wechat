@@ -21,3 +21,22 @@ export function convertToStarsArray(stars) {
     }
     return result; 
 };
+
+// Get请求
+export function http(url, callback) {
+    wx.request({
+      url: url,
+      method: 'GET', 
+      // 设置请求的 header
+      header: {
+        'Content-Type': 'json'
+      }, 
+      success: function(res){
+        callback && callback(res);
+      },
+      fail: function() {
+        // fail
+        console.log('调用失败')
+      }
+    });
+}

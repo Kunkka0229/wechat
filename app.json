@@ -9,7 +9,6 @@
   "window": {
     "navigationBarBackgroundColor": "#405f80",
     "navigationBarTextStyle": "#fff",
-    "navigationBarTitleText": "小程序",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false

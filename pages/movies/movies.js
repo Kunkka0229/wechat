@@ -8,7 +8,7 @@ Page({
     top250: {}
   },
   onLoad:function(options){
-    // 正在上映    https://api.douban.com/v2/movie/in_theaters
+    // 正在上映 
     var inTheatersUrl = app.globalData.doubanBase + '/v2/movie/in_theaters?start=0&count=3';
     // 即将上映
     var comingSoonUrl = app.globalData.doubanBase + '/v2/movie/coming_soon?start=0&count=3';
