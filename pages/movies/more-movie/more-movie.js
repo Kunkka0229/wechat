@@ -4,7 +4,10 @@ var util = require('../../../utils/utils.js');
 Page({
   data: {
     movies: {},
-    navigateTitle: ''
+    navigateTitle: '',
+    requestUrl: '',
+    totalCount: 0,
+    isEmpty: true
   },
   onLoad: function (options) {
     var category = options.category;
@@ -26,6 +29,8 @@ Page({
 
     // 请求数据
     util.http(dataUrl, this.processDoubanData);
+    // 保存url地址
+    this.data.requestUrl = dataUrl;
   },
   // 数据处理
   processDoubanData(res) {   
@@ -39,11 +44,27 @@ Page({
         movieId: item.id
       }
       movies.push(temp);
-    })
+    });
+    var totalMovies = {};
+    if(!this.data.isEmpty){
+      totalMovies = this.data.movies.concat(movies);
+    }else{
+      totalMovies = movies;
+      this.data.isEmpty = false;
+    }
     // 添加数据
     this.setData({
-      movies: movies
-    })
+      movies: totalMovies
+    });
+    // 增加总数
+    this.data.totalCount += 20;
+  },
+  // 上滑加载更多
+  onScrollLower(event) {
+    var nextUrlUrl = this.data.requestUrl + '?start=' + this.data.totalCount + '&count=20';
+    console.log(nextUrlUrl)
+    // 请求数据
+    util.http(nextUrlUrl, this.processDoubanData);
   },
   onShow() {
     // 动态设置标题
