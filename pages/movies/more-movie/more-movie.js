@@ -59,15 +59,28 @@ Page({
     });
     // 增加总数
     this.data.totalCount += 20;
-    // 关闭等待图标
+    // 关闭上滑加载
     wx.hideNavigationBarLoading();
+    // 关闭下拉刷新
+    wx.stopPullDownRefresh();
   },
   // 上滑加载更多
-  onScrollLower(event) {
+  onReachBottom(event) {
     var nextUrlUrl = this.data.requestUrl + '?start=' + this.data.totalCount + '&count=20';
     console.log(nextUrlUrl)
     // 请求数据
     util.http(nextUrlUrl, this.processDoubanData);
+    // 设置等待
+    wx.showNavigationBarLoading();
+  },
+  // 下拉刷新
+  onPullDownRefresh() {
+    var refreshUrl = this.data.requestUrl + '?start=0&count=20';
+    // 清空数据
+    this.data.movies = {};
+    this.data.isEmpty = true;
+    // 请求数据
+    util.http(refreshUrl, this.processDoubanData);
     // 设置等待
     wx.showNavigationBarLoading();
   },

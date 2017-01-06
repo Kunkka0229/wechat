@@ -2,12 +2,15 @@
 var app = getApp();
 var util = require('../../utils/utils.js');
 Page({
-  data:{
+  data: {
     inTheaters: {},
     comingSoon: {},
-    top250: {}
+    top250: {},
+    searchResult: {},
+    containerShow: true,
+    searchPanelShow: false
   },
-  onLoad:function(options){
+  onLoad: function (options) {
     // 正在上映 
     var inTheatersUrl = app.globalData.doubanBase + '/v2/movie/in_theaters?start=0&count=3';
     // 即将上映
@@ -29,18 +32,18 @@ Page({
       // 设置请求的 header
       header: {
         'Content-Type': 'json'
-      }, 
-      success: function(res){
+      },
+      success: function (res) {
         self.processDoubanData(res.data, categoryTitle, settedKey);
       },
-      fail: function() {
+      fail: function () {
         // fail
         console.log('调用失败')
       }
     });
   },
   // 数据处理
-  processDoubanData(moviesDouban, categoryTitle, settedKey) {   
+  processDoubanData(moviesDouban, categoryTitle, settedKey) {
     var movies = [];
     moviesDouban.subjects.forEach((item) => {
       var temp = {
@@ -66,5 +69,25 @@ Page({
     wx.navigateTo({
       url: 'more-movie/more-movie?category=' + category
     })
+  },
+  // 关闭搜索
+  onCancelImgTap(event) {
+    this.setData({
+      containerShow: true,
+      searchPanelShow: false,
+      searchResult: {}
+    })
+  },
+  // 获取input焦点 显示搜索
+  onBindFocus(event) {
+    this.setData({
+      containerShow: false,
+      searchPanelShow: true
+    })
+  },
+  onBindBlur(event) {
+    var text = event.detail.value;
+    var searchUrl = app.globalData.doubanBase + '/v2/movie/search?q=' + text;
+    this.getMovieListData(searchUrl, '' ,'searchResult');
   }
 })
