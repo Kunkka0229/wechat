@@ -46,6 +46,7 @@ Page({
       movies.push(temp);
     });
     var totalMovies = {};
+    // 如果要绑定新加载的数据，需要同旧有的数据合并到一起
     if(!this.data.isEmpty){
       totalMovies = this.data.movies.concat(movies);
     }else{
@@ -58,6 +59,8 @@ Page({
     });
     // 增加总数
     this.data.totalCount += 20;
+    // 关闭等待图标
+    wx.hideNavigationBarLoading();
   },
   // 上滑加载更多
   onScrollLower(event) {
@@ -65,6 +68,8 @@ Page({
     console.log(nextUrlUrl)
     // 请求数据
     util.http(nextUrlUrl, this.processDoubanData);
+    // 设置等待
+    wx.showNavigationBarLoading();
   },
   onShow() {
     // 动态设置标题
