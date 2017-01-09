@@ -1,8 +1,14 @@
 @import "../movie/movie-template.wxss";
-.grid-container{
-     margin: 40rpx 0 40rpx 6rpx;
+
+.grid-container {
+  width: 100%;
+  margin-top: 40rpx;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
 }
-.single-view-container{
-    float: left;
-    margin-bottom: 40rpx;
+
+.single-view-container {
+  flex: 0 0 33.33333%;
+  margin-bottom: 40rpx;
 }

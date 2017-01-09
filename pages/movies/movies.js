@@ -70,6 +70,13 @@ Page({
       url: 'more-movie/more-movie?category=' + category
     })
   },
+  // 点击跳转到详情页
+  onMovieTap(event) {
+    let movieId = event.currentTarget.dataset.movieId;
+     wx.navigateTo({
+      url: 'movie-detail/movie-detail?id=' + movieId
+    })
+  },
   // 关闭搜索
   onCancelImgTap(event) {
     this.setData({

@@ -33,9 +33,9 @@ Page({
 
     // 监听总控开关音乐
     this.setMusicMonitor();
-    
+
     // 全局音乐播放状态判断
-    if(app.globalData.g_isPlayingMusic && app.globalData.g_currentMusicPostId === postId){
+    if (app.globalData.g_isPlayingMusic && app.globalData.g_currentMusicPostId === postId) {
       this.setData({
         isPlayingMusic: true
       });
@@ -54,6 +54,15 @@ Page({
     });
     // 监听总控开关音乐暂停
     wx.onBackgroundAudioPause(function () {
+      self.setData({
+        isPlayingMusic: false
+      });
+      // 改变全局音乐播放状态
+      app.globalData.g_isPlayingMusic = false;
+      app.globalData.g_currentMusicPostId = null;
+    });
+    // 音乐播放完成改变状态
+    wx.onBackgroundAudioStop(function () {
       self.setData({
         isPlayingMusic: false
       });

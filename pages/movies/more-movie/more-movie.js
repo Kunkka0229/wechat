@@ -79,6 +79,7 @@ Page({
     // 清空数据
     this.data.movies = {};
     this.data.isEmpty = true;
+    this.data.totalCount = 0;
     // 请求数据
     util.http(refreshUrl, this.processDoubanData);
     // 设置等待
