@@ -48,5 +48,13 @@ Page({
     this.setData({
       movie: movie
     })
+  },
+  // 预览图片
+  viewMoviePostImg(event) {
+    let src = event.currentTarget.dataset.src;
+    wx.previewImage({
+      current: src, // 当前显示图片的链接，不填则默认为 urls 的第一张
+      urls: [src], // 需要预览的图片http链接列表
+    })
   }
 })

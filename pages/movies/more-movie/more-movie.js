@@ -90,5 +90,12 @@ Page({
     wx.setNavigationBarTitle({
       title: this.data.navigateTitle
     })
+  },
+  // 跳转电影详情
+  onMovieTap(event) {
+    let movieId = event.currentTarget.dataset.movieId;
+     wx.navigateTo({
+      url: '../movie-detail/movie-detail?id=' + movieId
+    })
   }
 })
