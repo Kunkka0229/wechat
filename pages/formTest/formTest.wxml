@@ -1,0 +1,14 @@
+<view>
+    <view>switch</view>
+    <switch type="switch" checked="true" name="switch" bindchange="onBindChange" />
+</view>
+
+<view>
+    <view>slider</view>
+    <slider name="silder" value="50" show-value="true" />
+</view>
+
+<view>
+    <view>input</view>
+    <input type="text" />
+</view>

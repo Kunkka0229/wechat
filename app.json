@@ -1,8 +1,10 @@
 {
   "pages": [
+    "pages/welcome/welcome", 
+    "pages/mapTest/mapTest",
+    "pages/formTest/formTest",
     "pages/post/post",
     "pages/movies/movies",
-    "pages/welcome/welcome",    
     "pages/post/post-detail/post-detail",
     "pages/movies/more-movie/more-movie",
     "pages/movies/movie-detail/movie-detail"
